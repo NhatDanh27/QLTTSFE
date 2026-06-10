@@ -1,0 +1,136 @@
+<div class="admin-schedule-container">
+  
+  <header class="page-header">
+    <div class="header-text">
+      <h2 class="page-title">Tổng hợp Lịch làm việc</h2>
+      <p class="page-subtitle">Theo dõi và quản lý lịch đăng ký của tất cả thực tập sinh trong hệ thống.</p>
+    </div>
+  </header>
+
+  <div class="tabs-container">
+    <button class="tab-btn" 
+            [class.active]="activeTab() === 'registration'" 
+            (click)="switchTab('registration')">
+      Lịch đăng ký
+    </button>
+    <button class="tab-btn" 
+            [class.active]="activeTab() === 'attendance'" 
+            (click)="switchTab('attendance')">
+      Điểm danh
+    </button>
+  </div>
+
+  <div class="schedule-card">
+    
+    <div class="filter-bar">
+      <div class="filter-group">
+        <label>Tên thực tập sinh</label>
+        <div class="input-wrapper">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <input type="text" placeholder="Tìm kiếm..." [(ngModel)]="searchName">
+        </div>
+      </div>
+      
+      <div class="filter-group">
+        <label>Từ ngày - Đến ngày</label>
+        <div class="input-wrapper">
+          <svg class="calendar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          <input type="text" placeholder="dd/mm/yyyy - dd/mm/yyyy" [(ngModel)]="dateRange">
+        </div>
+      </div>
+
+      <div class="filter-group flex-1">
+        <label>Ca làm</label>
+        <select [(ngModel)]="shiftFilter">
+          <option value="Tất cả">Tất cả</option>
+          <option value="Sáng">Sáng</option>
+          <option value="Chiều">Chiều</option>
+          <option value="Cả ngày">Cả ngày</option>
+        </select>
+      </div>
+
+      <div class="filter-action">
+        <button class="btn-clear-filter" (click)="clearFilters()">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          Xóa lọc
+        </button>
+      </div>
+    </div>
+
+    <div class="table-container" *ngIf="activeTab() === 'registration'">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th width="10%">ID</th>
+            <th width="25%">THỰC TẬP SINH</th>
+            <th width="15%">THỨ</th>
+            <th width="20%">NGÀY ĐĂNG KÝ</th>
+            <th width="15%">CA LÀM</th>
+            <th width="15%" class="text-center">TRẠNG THÁI</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let record of registrationData()">
+            <td class="col-id">{{ record.id }}</td>
+            <td class="col-name">{{ record.internName }}</td>
+            <td>{{ record.dayOfWeek }}</td>
+            <td>{{ record.date }}</td>
+            <td>{{ record.shift }}</td>
+            <td class="text-center">
+              <span class="badge" 
+                    [ngClass]="record.status === 'registered' ? 'badge-registered' : 'badge-cancelled'">
+                {{ record.status === 'registered' ? 'Đã đăng ký' : 'Hủy đăng ký' }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-container" *ngIf="activeTab() === 'attendance'">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th width="8%">ID</th>
+            <th width="25%">THỰC TẬP SINH</th>
+            <th width="15%">NGÀY</th>
+            <th width="15%">CA LÀM</th>
+            <th width="12%">CHECK-IN</th>
+            <th width="12%">CHECK-OUT</th>
+            <th width="13%" class="text-center">TRẠNG THÁI</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let record of attendanceData()">
+            <td class="col-id">{{ record.id }}</td>
+            <td class="col-name">{{ record.internName }}</td>
+            <td>{{ record.date }}</td>
+            <td>{{ record.shift }}</td>
+            <td>{{ record.checkIn }}</td>
+            <td>{{ record.checkOut }}</td>
+            <td class="text-center">
+              <span class="badge" 
+                    [ngClass]="record.status === 'attended' ? 'badge-attended' : 'badge-absent'">
+                {{ record.status === 'attended' ? 'Đã đi' : 'Nghỉ' }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pagination-footer">
+      <div class="pagination-info">Hiển thị 1-10 của 45 bản ghi</div>
+      <div class="pagination-controls">
+        <button class="page-btn">&lt;</button>
+        <button class="page-btn active">1</button>
+        <button class="page-btn">2</button>
+        <button class="page-btn">3</button>
+        <span class="page-dots">...</span>
+        <button class="page-btn">5</button>
+        <button class="page-btn">&gt;</button>
+      </div>
+    </div>
+
+  </div>
+</div>

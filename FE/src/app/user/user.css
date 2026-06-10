@@ -1,0 +1,222 @@
+/* Container & Header */
+.user-container {
+  padding: 24px;
+  background-color: #f9f9fb; /* Nền nhạt ở ngoài nếu có */
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.page-title {
+  margin: 0;
+  font-size: 22px;
+  color: #111827;
+  font-weight: 600;
+}
+
+/* Action Bar & Buttons */
+.action-bar {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.2s;
+}
+
+button svg {
+  width: 16px;
+  height: 16px;
+}
+
+.search-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  width: 16px;
+  height: 16px;
+  color: #6b7280;
+}
+
+.search-wrapper input {
+  padding: 8px 12px 8px 36px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  width: 260px;
+  font-size: 14px;
+  outline: none;
+}
+
+.search-wrapper input:focus {
+  border-color: #4f46e5;
+}
+
+.btn-search {
+  background-color: #4f46e5; /* Màu xanh tím */
+  color: white;
+}
+.btn-search:hover { background-color: #4338ca; }
+
+.btn-refresh {
+  background-color: white;
+  color: #374151;
+  border-color: #d1d5db;
+}
+.btn-refresh:hover { background-color: #f3f4f6; }
+
+.btn-add {
+  background-color: #059669; /* Màu xanh ngọc */
+  color: white;
+}
+.btn-add:hover { background-color: #047857; }
+
+/* Table Container */
+.table-card {
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  overflow: hidden;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 16px 20px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+th {
+  background-color: #f9fafb;
+  color: #6b7280;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.text-right { text-align: right; }
+.fw-bold { font-weight: 600; color: #111827; }
+.text-muted { color: #6b7280; font-size: 14px; }
+
+/* Badges */
+.role-badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* Các role theo hình */
+.role-tts { 
+  background-color: #4f46e5; 
+  color: white; 
+}
+.role-admin { 
+  background-color: #fee2e2; 
+  color: #dc2626; 
+}
+.role-leader { 
+  background-color: #e0e7ff; 
+  color: #4f46e5; 
+}
+
+/* Action Edit Button (Dạng text có icon) */
+.btn-edit-inline {
+  background: transparent;
+  color: #6b7280;
+  padding: 4px 8px;
+  display: inline-flex;
+  margin-left: auto;
+}
+.btn-edit-inline:hover {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+/* Table Footer / Pagination */
+.table-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background-color: white;
+}
+
+.pagination-info {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.pagination-controls {
+  display: flex;
+  gap: 4px;
+}
+
+.btn-page {
+  padding: 4px 8px;
+  background: white;
+  border: none;
+  color: #6b7280;
+}
+.btn-page:hover { background: #f3f4f6; color: #111827; }
+
+/* Utils (Giữ nguyên các style Loading, Empty, Modal của bạn) */
+.loading, .error-msg, .empty-state {
+  text-align: center;
+  padding: 40px;
+  color: #6b7280;
+}
+.error-msg { color: #dc2626; }
+
+/* Modal (Giữ nguyên cấu trúc, tinh chỉnh nhẹ màu sắc) */
+.modal-overlay {
+  position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4); 
+  display: flex; justify-content: center; align-items: center; z-index: 1000;
+}
+.modal-content {
+  background-color: white; padding: 24px; border-radius: 8px; width: 400px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+.modal-content h3 { margin: 0 0 20px 0; padding-bottom: 15px; border-bottom: 1px solid #e5e7eb; font-size: 18px; }
+.form-group { margin-bottom: 16px; display: flex; flex-direction: column; gap: 6px; }
+.form-group label { font-weight: 500; font-size: 14px; color: #374151; }
+.text-danger { color: #dc2626; }
+.form-group input, .form-group select {
+  padding: 10px 12px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px;
+}
+.form-group input:focus, .form-group select:focus {
+  outline: none; border-color: #4f46e5; box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+.modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 24px; }
+.btn-cancel { background-color: white; color: #374151; border: 1px solid #d1d5db; }
+.btn-cancel:hover { background-color: #f3f4f6; }
+.btn-submit { background-color: #4f46e5; color: white; }
+.btn-submit:disabled { opacity: 0.7; cursor: not-allowed; }

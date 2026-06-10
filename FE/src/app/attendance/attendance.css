@@ -1,0 +1,220 @@
+/* --- CONTAINER CHUNG --- */
+.attendance-container {
+  padding: 40px 20px;
+  max-width: 620px; /* Thu nhỏ chiều rộng chuẩn theo hình */
+  margin: 0 auto;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* --- HEADER --- */
+.header-section {
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.header-section h2 {
+  color: #2563eb; /* Màu xanh chủ đạo công nghệ mới */
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+}
+
+.subtitle {
+  color: #64748b;
+  font-size: 14px;
+  margin: 0;
+}
+
+/* --- ALERT THÔNG BÁO --- */
+.alert {
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 500;
+}
+.alert-success { background-color: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+.alert-danger { background-color: #fef2f2; color: #991b1b; border: 1px solid #fee2e2; }
+
+/* --- KHUNG CARD CHÍNH --- */
+.attendance-card {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  overflow: hidden;
+}
+
+/* --- VÙNG HIỂN THỊ GPS (TOP AREA) --- */
+.gps-section {
+  background-color: #f8fafc; /* Nền xám nhạt nhẹ nhàng */
+  padding: 24px;
+  border-bottom: 1px solid #f1f5f9;
+  text-align: center;
+}
+
+.section-title {
+  margin: 0 0 16px 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.gps-coords {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.coord-box {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  padding: 12px 16px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  max-width: 240px;
+}
+
+.coord-box .label {
+  font-size: 11px;
+  color: #94a3b8;
+  margin-bottom: 4px;
+}
+
+.coord-box .value {
+  font-weight: 700;
+  color: #2563eb; /* Tọa độ màu xanh đậm nổi bật */
+  font-size: 13px;
+  word-break: break-all;
+}
+
+.btn-refresh-location {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  color: #2563eb;
+  padding: 8px 18px;
+  border-radius: 20px; /* Dạng hình viên thuốc (pill) */
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  transition: all 0.2s;
+}
+
+.btn-refresh-location:hover {
+  background-color: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+/* --- VÙNG FORM NHẬP LIỆU (BOTTOM AREA) --- */
+.form-section {
+  padding: 28px 24px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 8px;
+  font-weight: 600;
+  font-size: 13px;
+  color: #334155;
+}
+
+.text-danger {
+  color: #ef4444;
+}
+
+/* Tinh chỉnh Input và Textarea đồng bộ */
+.form-group input,
+.form-group textarea {
+  padding: 10px 14px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #0f172a;
+  outline: none;
+  background-color: #ffffff;
+  font-family: inherit;
+}
+
+.form-group textarea {
+  resize: vertical; /* Cho phép co giãn chiều cao */
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #94a3b8;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.hint {
+  margin-top: 6px;
+  color: #64748b;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+/* --- HỆ THỐNG NÚT BẤM ĐĂNG KÝ --- */
+.action-buttons {
+  display: flex;
+  gap: 16px;
+  margin-top: 28px;
+}
+
+.btn-checkin, 
+.btn-checkout {
+  flex: 1;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+/* Màu xanh ngọc lục bảo (Emerald) chuẩn nút Check-in */
+.btn-checkin {
+  background-color: #10b981; 
+}
+.btn-checkin:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+/* Màu cam hổ phách (Amber) chuẩn nút Check-out */
+.btn-checkout {
+  background-color: #f59e0b;
+}
+.btn-checkout:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+/* Trạng thái khóa nút */
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

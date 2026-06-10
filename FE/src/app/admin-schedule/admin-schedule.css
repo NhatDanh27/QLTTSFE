@@ -1,0 +1,272 @@
+/* --- TỔNG QUAN --- */
+.admin-schedule-container {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  padding: 32px;
+  background-color: #f8fafc;
+  min-height: 100vh;
+  color: #0f172a;
+}
+
+/* --- HEADER --- */
+.page-header {
+  margin-bottom: 24px;
+}
+
+.page-title {
+  margin: 0 0 6px 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.page-subtitle {
+  margin: 0;
+  font-size: 14px;
+  color: #64748b;
+}
+
+/* --- TABS --- */
+.tabs-container {
+  display: flex;
+  gap: 24px;
+  border-bottom: 1px solid #e2e8f0;
+  margin-bottom: 24px;
+}
+
+.tab-btn {
+  background: transparent;
+  border: none;
+  padding: 0 0 12px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #64748b;
+  cursor: pointer;
+  position: relative;
+  transition: color 0.2s;
+}
+
+.tab-btn:hover {
+  color: #3b28cc;
+}
+
+.tab-btn.active {
+  color: #3b28cc; /* Màu tím đậm */
+}
+
+.tab-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background-color: #3b28cc;
+  border-radius: 3px 3px 0 0;
+}
+
+/* --- MAIN CARD --- */
+.schedule-card {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+/* --- FILTER BAR --- */
+.filter-bar {
+  display: flex;
+  align-items: flex-end;
+  padding: 20px 24px;
+  gap: 20px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.flex-1 {
+  flex: 1; /* Để ô dropdown đẩy phần "Xóa lọc" sang phải vừa đủ */
+  max-width: 250px;
+}
+
+.filter-group label {
+  font-size: 12px;
+  color: #475569;
+  font-weight: 500;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon, .calendar-icon {
+  position: absolute;
+  left: 12px;
+  width: 16px;
+  height: 16px;
+  color: #94a3b8;
+}
+
+.input-wrapper input {
+  padding: 10px 12px 10px 36px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+  min-width: 220px;
+  color: #334155;
+  transition: border-color 0.2s;
+}
+
+.filter-group select {
+  padding: 10px 32px 10px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+  background-color: white;
+  cursor: pointer;
+  color: #334155;
+}
+
+.input-wrapper input:focus, .filter-group select:focus {
+  border-color: #3b28cc;
+}
+
+.filter-action {
+  padding-bottom: 6px;
+  margin-left: auto;
+}
+
+.btn-clear-filter {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.btn-clear-filter:hover { color: #0f172a; }
+.btn-clear-filter .icon { width: 16px; height: 16px; }
+
+/* --- BẢNG DỮ LIỆU --- */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.data-table th {
+  background-color: #f8fafc;
+  color: #64748b;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 14px 24px;
+  text-align: left;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.data-table td {
+  padding: 16px 24px;
+  border-bottom: 1px solid #f1f5f9;
+  vertical-align: middle;
+  font-size: 14px;
+  color: #334155;
+}
+
+.col-id { color: #64748b; font-weight: 500; }
+.col-name { color: #0f172a; font-weight: 500; }
+/* Thêm !important để ép CSS không bị ghi đè bởi style mặc định của bảng */
+.text-center { text-align: center !important; }
+.text-right { text-align: right !important; }
+/* --- BADGES (TRẠNG THÁI) --- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge-registered {
+  background-color: #4338ca;
+  color: white;
+}
+
+.badge-cancelled {
+  background-color: #f8fafc;
+  color: #64748b;
+  border: 1px solid #e2e8f0;
+}
+
+.badge-attended {
+  background-color: #16a34a; /* Xanh lá */
+  color: white;
+}
+
+.badge-absent {
+  background-color: #fee2e2; /* Đỏ nhạt */
+  color: #b91c1c; /* Đỏ đậm */
+}
+
+/* --- PHÂN TRANG (PAGINATION) --- */
+.pagination-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+}
+
+.pagination-info {
+  font-size: 13px;
+  color: #64748b;
+}
+
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.page-btn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  color: #475569;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.page-btn:hover:not(.active) { background-color: #f1f5f9; }
+
+.page-btn.active {
+  background-color: #3b28cc;
+  border-color: #3b28cc;
+  color: white;
+  font-weight: 600;
+}
+
+.page-dots {
+  color: #94a3b8;
+  padding: 0 4px;
+}

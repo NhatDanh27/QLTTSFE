@@ -1,0 +1,135 @@
+<div class="user-container">
+  <div class="header-section">
+    <h2 class="page-title">Quản lý Thực Tập Sinh</h2>
+    
+    <div class="action-bar">
+      <div class="search-wrapper">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input 
+          type="text" 
+          [(ngModel)]="searchQuery" 
+          (keyup.enter)="onSearch()"
+          placeholder="Nhập tên đăng nhập cần tìm..." 
+        />
+      </div>
+      <button class="btn-search" (click)="onSearch()">Tìm kiếm</button>
+      <button class="btn-refresh" (click)="loadUsers()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+        Làm mới
+      </button>
+      <button class="btn-add" (click)="openAddModal()">+ Thêm tài khoản</button>
+    </div>
+  </div>
+
+  <div *ngIf="isLoading()" class="loading">Đang tải dữ liệu...</div>
+  <div *ngIf="errorMessage()" class="error-msg">{{ errorMessage() }}</div>
+
+  <div class="table-card" *ngIf="!isLoading()">
+    <table *ngIf="usersList().length > 0">
+      <thead>
+        <tr>
+          <th width="10%">ID</th>
+          <th width="25%">TÊN ĐĂNG NHẬP</th>
+          <th width="20%">VAI TRÒ (ROLE)</th>
+          <th width="25%">NGÀY TẠO</th>
+          <th width="20%" class="text-right">THAO TÁC</th> 
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of usersList()">
+          <td class="text-muted">{{ user.id }}</td>
+          <td class="fw-bold">{{ user.tendangnhap }}</td>
+          <td>
+            <span class="role-badge" [ngClass]="'role-' + user.role">
+              {{ user.role === 'admin' ? 'Admin' : (user.role === 'leader' ? 'Leader' : 'TTS') }}
+            </span>
+          </td>
+          <td class="text-muted">{{ user.ngaytao | date:'dd/MM/yyyy' }}</td>
+          <td class="text-right">
+            <button class="btn-edit-inline" (click)="openEditModal(user)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+              Sửa
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="usersList().length === 0 && !errorMessage()" class="empty-state">
+      Chưa có dữ liệu người dùng trong hệ thống.
+    </div>
+
+    <div class="table-footer" *ngIf="usersList().length > 0">
+      <div class="pagination-info">
+        
+      </div>
+      <div class="pagination-controls">
+        <button class="btn-page">&lt;</button>
+        <button class="btn-page">&gt;</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" *ngIf="isAddModalOpen()">
+    <div class="modal-content">
+      <h3>Tạo Tài Khoản Mới</h3>
+      <div class="form-group">
+        <label>Tên đăng nhập <span class="text-danger">*</span></label>
+        <input type="text" [(ngModel)]="newUser.username" placeholder="Nhập tên đăng nhập">
+      </div>
+      <div class="form-group">
+        <label>Mật khẩu <span class="text-danger">*</span></label>
+        <input type="password" [(ngModel)]="newUser.password" placeholder="Nhập mật khẩu (min 6 ký tự)">
+      </div>
+      <div class="form-group">
+        <label>Phân Quyền (Role)</label>
+        <select [(ngModel)]="newUser.role">
+          <option value="admin">Admin</option>
+          <option value="leader">Leader</option>
+          <option value="tts">Thực Tập Sinh</option>
+        </select>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-cancel" (click)="closeAddModal()" [disabled]="isSubmitting()">Hủy</button>
+        <button class="btn-submit" (click)="onSubmitCreate()" [disabled]="isSubmitting()">
+          {{ isSubmitting() ? 'Đang xử lý...' : 'Tạo mới' }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" *ngIf="isEditModalOpen()">
+    <div class="modal-content">
+      <h3>Cập Nhật Tài Khoản</h3>
+      <div class="form-group">
+        <label>Tên đăng nhập <span class="text-danger">*</span></label>
+        <input type="text" [(ngModel)]="editUser.username" placeholder="Nhập tên đăng nhập">
+      </div>
+      <div class="form-group">
+        <label>Mật khẩu mới <span class="text-danger">*</span></label>
+        <input type="password" [(ngModel)]="editUser.password" placeholder="Bỏ trống nếu không muốn đổi mật khẩu">
+      </div>
+      <div class="form-group">
+        <label>Phân Quyền (Role)</label>
+        <select [(ngModel)]="editUser.role">
+          <option value="admin">Admin</option>
+          <option value="leader">Leader</option>
+          <option value="tts">Thực Tập Sinh</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Trạng thái</label>
+        <select [(ngModel)]="editUser.status">
+          <option value="active">Hoạt động</option>
+          <option value="inactive">Dừng hoạt động</option>
+        </select>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-cancel" (click)="closeEditModal()" [disabled]="isSubmitting()">Hủy</button>
+        <button class="btn-submit" (click)="onSubmitEdit()" [disabled]="isSubmitting()">
+          {{ isSubmitting() ? 'Đang lưu...' : 'Lưu thay đổi' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

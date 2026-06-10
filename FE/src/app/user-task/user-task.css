@@ -1,0 +1,102 @@
+/* --- TÁI SỬ DỤNG CSS CỐT LÕI TỪ ADMIN TASK --- */
+.task-manager-container { font-family: -apple-system, sans-serif; padding: 32px; background-color: #f8fafc; min-height: 100vh; color: #0f172a; }
+.page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+.page-title { margin: 0 0 4px 0; font-size: 24px; font-weight: 700; color: #1e293b; }
+.page-subtitle { margin: 0; font-size: 14px; color: #64748b; }
+.task-card { background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+
+/* Bộ Lọc */
+.filter-bar { display: flex; align-items: flex-end; padding: 20px; gap: 16px; border-bottom: 1px solid #e2e8f0; }
+.filter-group { display: flex; flex-direction: column; gap: 6px; }
+.search-group { flex: 1; }
+.filter-group label { font-size: 12px; color: #64748b; font-weight: 500; }
+.input-wrapper { position: relative; display: flex; align-items: center; }
+.search-icon { position: absolute; left: 12px; width: 16px; height: 16px; color: #94a3b8; }
+.input-wrapper input { width: 100%; padding: 8px 12px 8px 36px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; outline: none; }
+.input-wrapper input:focus, .filter-group select:focus, textarea:focus { border-color: #4338ca; box-shadow: 0 0 0 3px rgba(67, 56, 202, 0.1); }
+.filter-group select { padding: 8px 32px 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; outline: none; background-color: white; min-width: 160px; cursor: pointer; }
+.filter-action { padding-bottom: 2px; }
+.btn-clear-filter { display: flex; align-items: center; gap: 6px; background: transparent; border: none; color: #64748b; font-size: 14px; font-weight: 500; cursor: pointer; }
+.btn-clear-filter:hover { color: #0f172a; }
+.btn-clear-filter .icon { width: 14px; height: 14px; }
+
+/* Bảng Dữ Liệu */
+.task-table { width: 100%; border-collapse: collapse; }
+.task-table th { background-color: #f1f5f9; color: #64748b; font-size: 11px; font-weight: 600; text-transform: uppercase; padding: 12px 20px; text-align: left; }
+.task-table td { padding: 16px 20px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
+.task-id { color: #64748b; font-size: 13px; font-weight: 500; }
+.task-title { font-weight: 600; font-size: 14px; color: #1e293b; margin-bottom: 4px; }
+.task-desc { font-size: 13px; color: #64748b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 350px; }
+.deadline-text { color: #ef4444; font-weight: 500; }
+
+/* Progress & Badges */
+.progress-wrapper { display: flex; align-items: center; gap: 12px; }
+.progress-bar-bg { flex: 1; height: 6px; background-color: #e2e8f0; border-radius: 4px; overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 4px; transition: width 0.3s ease; }
+.bg-indigo { background-color: #4f46e5; }
+.bg-green { background-color: #16a34a; }
+.bg-slate { background-color: #64748b; }
+.progress-text { font-size: 13px; font-weight: 500; color: #334155; min-width: 35px; }
+
+.badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 500; line-height: 1.2; }
+.badge svg { width: 14px; height: 14px; }
+.dot { width: 6px; height: 6px; border-radius: 50%; background-color: currentColor; }
+.badge-todo { background-color: #f1f5f9; color: #475569; }
+.badge-in-progress { background-color: #e0e7ff; color: #4338ca; }
+.badge-done { background-color: #dcfce7; color: #15803d; }
+.badge-paused { background-color: #fee2e2; color: #b91c1c; } /* Màu đỏ cảnh báo khi gặp khó khăn */
+
+.task-date { font-size: 13px; color: #475569; }
+.text-center { text-align: center; }
+
+/* Nút Cập nhật */
+.btn-edit-action { display: inline-flex; align-items: center; gap: 6px; background: transparent; border: none; color: #0284c7; font-size: 14px; font-weight: 500; cursor: pointer; padding: 6px 10px; border-radius: 6px; transition: all 0.2s; }
+.btn-edit-action svg { width: 16px; height: 16px; color: #64748b; transition: all 0.2s; }
+.btn-edit-action:hover { background-color: #f0f9ff; color: #0284c7; }
+.btn-edit-action:hover svg { color: #0284c7; }
+
+/* Pagination */
+.pagination-footer { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-top: 1px solid #e2e8f0; }
+.pagination-info { font-size: 13px; color: #64748b; }
+.pagination-controls { display: flex; gap: 4px; }
+.page-btn { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: transparent; border: none; border-radius: 4px; color: #475569; font-size: 14px; cursor: pointer; transition: all 0.2s; }
+.page-btn:hover { background-color: #f1f5f9; }
+.page-btn.active { background-color: #4338ca; color: white; font-weight: 600; }
+
+/* ================= CSS MODAL INTERN ================= */
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(15, 23, 42, 0.4); backdrop-filter: blur(2px); display: flex; justify-content: center; align-items: center; z-index: 1000; }
+.modal-content { background-color: #ffffff; border-radius: 12px; width: 550px; max-width: 90vw; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); overflow: hidden; }
+.modal-header { display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; border-bottom: 1px solid #e2e8f0; }
+.modal-header h3 { margin: 0; font-size: 18px; font-weight: 600; color: #1e293b; }
+.btn-close-modal { background: transparent; border: none; color: #94a3b8; cursor: pointer; padding: 4px; border-radius: 4px; }
+.btn-close-modal:hover { background-color: #f1f5f9; color: #0f172a; }
+.btn-close-modal svg { width: 20px; height: 20px; }
+
+.modal-body { padding: 24px; }
+
+/* Thông tin Task Readonly */
+.task-info-readonly { background-color: #f8fafc; padding: 16px; border-radius: 8px; border: 1px solid #e2e8f0; }
+.task-info-readonly h4 { margin: 0 0 8px 0; font-size: 16px; color: #1e293b; }
+.task-info-readonly p { margin: 0 0 12px 0; font-size: 14px; color: #475569; line-height: 1.5; }
+.deadline-badge { display: inline-block; background-color: #fee2e2; color: #b91c1c; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; }
+
+.divider { border: 0; border-top: 1px dashed #cbd5e1; margin: 20px 0; }
+
+.form-row { display: flex; gap: 16px; }
+.form-row .form-group { flex: 1; }
+.form-group { margin-bottom: 16px; display: flex; flex-direction: column; }
+.form-group label { margin-bottom: 6px; font-size: 13px; font-weight: 600; color: #475569; }
+
+/* Input Slider cho Tiến độ */
+.progress-input-group { display: flex; align-items: center; gap: 12px; }
+.progress-input-group input[type="range"] { flex: 1; cursor: pointer; accent-color: #4338ca; }
+.percent-val { font-size: 15px; font-weight: 700; color: #4338ca; min-width: 45px; }
+
+.form-group textarea, .form-group select { padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; color: #0f172a; outline: none; font-family: inherit; transition: border-color 0.2s; width: 100%; box-sizing: border-box; }
+.form-group textarea { resize: vertical; }
+
+.modal-actions { display: flex; justify-content: flex-end; gap: 12px; padding: 16px 24px; background-color: #f8fafc; border-top: 1px solid #e2e8f0; }
+.btn-cancel { background-color: #ffffff; color: #475569; border: 1px solid #cbd5e1; padding: 8px 16px; border-radius: 6px; font-weight: 500; cursor: pointer; }
+.btn-cancel:hover { background-color: #f1f5f9; }
+.btn-submit { background-color: #4338ca; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 500; cursor: pointer; }
+.btn-submit:hover { background-color: #3730a3; }

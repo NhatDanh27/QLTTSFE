@@ -1,0 +1,164 @@
+<div class="task-manager-container">
+  
+  <header class="page-header">
+    <div class="header-text">
+      <h2 class="page-title">Quản lý và Giao Task</h2>
+      <p class="page-subtitle">Giám sát tiến độ và phân công công việc cho thực tập sinh.</p>
+    </div>
+    <button class="btn-create-task" (click)="openCreateModal()">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+      Tạo Task mới
+    </button>
+  </header>
+
+  <div class="task-card">
+    
+    <div class="filter-bar">
+      <div class="filter-group search-group">
+        <label>Tìm kiếm Tiêu đề</label>
+        <div class="input-wrapper">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <input type="text" placeholder="Nhập tên task...">
+        </div>
+      </div>
+      
+      <div class="filter-group">
+        <label>Thực tập sinh</label>
+        <select>
+          <option>Tất cả</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label>Trạng thái</label>
+        <select>
+          <option>Tất cả trạng thái</option>
+        </select>
+      </div>
+
+      <div class="filter-action">
+        <button class="btn-clear-filter">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          Xóa lọc
+        </button>
+      </div>
+    </div>
+
+    <div class="table-container">
+      <table class="task-table">
+        <thead>
+          <tr>
+            <th width="5%">ID</th>
+            <th width="35%">TIÊU ĐỀ (TIEU_DE)</th>
+            <th width="15%">THỰC TẬP SINH</th>
+            <th width="15%">TIẾN ĐỘ (PROGRESS)</th>
+            <th width="12%">TRẠNG THÁI</th>
+            <th width="10%">NGÀY GIAO</th>
+            <th width="8%" class="text-center">HÀNH ĐỘNG</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let task of taskList()">
+            <td class="task-id">{{ task.id }}</td>
+            <td>
+              <div class="task-title">{{ task.title }}</div>
+              <div class="task-desc">{{ task.description }}</div>
+            </td>
+            <td>
+              <div class="assignee">
+                <div class="avatar" [ngClass]="task.assigneeColor">{{ task.assigneeInitials }}</div>
+                <span class="assignee-name">{{ task.assigneeName }}</span>
+              </div>
+            </td>
+            <td>
+              <div class="progress-wrapper">
+                <div class="progress-bar-bg"><div class="progress-fill" [ngClass]="task.assigneeColor" [style.width]="task.progress + '%'"></div></div>
+                <span class="progress-text">{{ task.progress }}%</span>
+              </div>
+            </td>
+            <td>
+              <span class="badge badge-in-progress" *ngIf="task.status === 'in-progress'"><span class="dot"></span> Đang thực hiện</span>
+              <span class="badge badge-done" *ngIf="task.status === 'done'">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Hoàn thành
+              </span>
+              <span class="badge badge-paused" *ngIf="task.status === 'paused'">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> Tạm dừng
+              </span>
+            </td>
+            <td class="task-date">{{ task.date }}</td>
+            <td class="text-center">
+              <button class="btn-edit-action" (click)="openEditModal(task)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                Sửa
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pagination-footer">
+      <div class="pagination-info">Hiển thị 1-3 của 24 task</div>
+      <div class="pagination-controls">
+        <button class="page-btn">&lt;</button>
+        <button class="page-btn active">1</button>
+        <button class="page-btn">2</button>
+        <button class="page-btn">3</button>
+        <button class="page-btn">&gt;</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="isModalOpen()">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>{{ isEditMode() ? 'Cập nhật Task ' + currentTask.id : 'Tạo Task Mới' }}</h3>
+      <button class="btn-close-modal" (click)="closeModal()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
+    
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Tiêu đề Task <span class="text-danger">*</span></label>
+        <input type="text" [(ngModel)]="currentTask.title" placeholder="Nhập tiêu đề công việc...">
+      </div>
+      
+      <div class="form-group">
+        <label>Mô tả chi tiết</label>
+        <textarea rows="3" [(ngModel)]="currentTask.description" placeholder="Nhập yêu cầu chi tiết..."></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Giao cho (Thực tập sinh)</label>
+          <select [(ngModel)]="currentTask.assigneeName">
+            <option value="undefined" disabled>-- Chọn người phụ trách --</option>
+            <option value="Nguyễn Văn A">Nguyễn Văn A</option>
+            <option value="Trần Thị B">Trần Thị B</option>
+            <option value="Lê Hoàng C">Lê Hoàng C</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Trạng thái</label>
+          <select [(ngModel)]="currentTask.status">
+            <option value="todo">Chưa bắt đầu</option>
+            <option value="in-progress">Đang thực hiện</option>
+            <option value="done">Hoàn thành</option>
+            <option value="paused">Tạm dừng</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-cancel" (click)="closeModal()">Hủy</button>
+      <button class="btn-submit" (click)="onSubmit()">
+        {{ isEditMode() ? 'Lưu thay đổi' : 'Tạo mới' }}
+      </button>
+    </div>
+  </div>
+</div>

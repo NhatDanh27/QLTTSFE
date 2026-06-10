@@ -1,0 +1,172 @@
+<div class="profile-container">
+  
+  <header class="page-header">
+    <div class="header-left">
+      <button class="btn-back" (click)="goBack()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+      </button>
+      <div class="header-text">
+        <h2 class="page-title">Hồ sơ: {{ profile().fullName }}</h2>
+        <p class="page-subtitle">Xem chi tiết và quản lý thông tin của thực tập sinh.</p>
+      </div>
+    </div>
+    
+    <button [class]="isEditMode() ? 'btn-save' : 'btn-update'" (click)="toggleEditMode()">
+      <svg *ngIf="!isEditMode()" class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+      <svg *ngIf="isEditMode()" class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+      {{ isEditMode() ? 'Lưu thay đổi' : 'Chỉnh sửa' }}
+    </button>
+  </header>
+
+  <div class="profile-grid">
+    
+    <div class="left-column">
+      
+      <div class="profile-card">
+        <div class="card-header">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          Thông tin cơ bản
+        </div>
+        
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Họ và tên <span class="text-danger" *ngIf="isEditMode()">*</span></label>
+            <input type="text" [(ngModel)]="profile().fullName" [readonly]="!isEditMode()" [class.bg-readonly]="!isEditMode()">
+          </div>
+          <div class="form-group">
+            <label>Giới tính <span class="text-danger" *ngIf="isEditMode()">*</span></label>
+            <select [(ngModel)]="profile().gender" [disabled]="!isEditMode()" [class.bg-readonly]="!isEditMode()">
+              <option value="Nam">Nam</option>
+              <option value="Nữ">Nữ</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Ngày sinh <span class="text-danger" *ngIf="isEditMode()">*</span></label>
+            <input type="date" [(ngModel)]="profile().dob" [readonly]="!isEditMode()" [class.bg-readonly]="!isEditMode()">
+          </div>
+          <div class="form-group">
+            <label>Số điện thoại <span class="text-danger" *ngIf="isEditMode()">*</span></label>
+            <input type="tel" [(ngModel)]="profile().phone" [readonly]="!isEditMode()" [class.bg-readonly]="!isEditMode()">
+          </div>
+          <div class="form-group">
+            <label>Email cá nhân <span class="text-danger" *ngIf="isEditMode()">*</span></label>
+            <input type="email" [(ngModel)]="profile().personalEmail" [readonly]="!isEditMode()" [class.bg-readonly]="!isEditMode()">
+          </div>
+          <div class="form-group">
+            <label>Email trường</label>
+            <input type="email" [(ngModel)]="profile().schoolEmail" [readonly]="!isEditMode()" [class.bg-readonly]="!isEditMode()">
+          </div>
+        </div>
+
+        <div class="form-group full-width mt-16">
+          <label>Địa chỉ hiện tại</label>
+          <input type="text" [(ngModel)]="profile().currentAddress" [readonly]="!isEditMode()" [class.bg-readonly]="!isEditMode()">
+        </div>
+        
+        <div class="form-group full-width mt-16">
+          <label>Facebook URL</label>
+          <input type="text" [(ngModel)]="profile().facebookUrl" [readonly]="!isEditMode()" class="text-link" [class.bg-readonly]="!isEditMode()">
+        </div>
+      </div>
+
+      <div class="profile-card">
+        <div class="card-header">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
+          Thông tin học vấn
+        </div>
+        
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Trường đại học <span class="text-danger" *ngIf="isEditMode()">*</span></label>
+            <input type="text" [(ngModel)]="profile().university" [readonly]="!isEditMode()" [class.bg-readonly]="!isEditMode()">
+          </div>
+          <div class="form-group">
+            <label>Mã số sinh viên (MSSV)</label>
+            <input type="text" [(ngModel)]="profile().studentId" [readonly]="!isEditMode()" [class.bg-readonly]="!isEditMode()">
+          </div>
+          <div class="form-group">
+            <label>Ngành học</label>
+            <input type="text" [(ngModel)]="profile().major" [readonly]="!isEditMode()" [class.bg-readonly]="!isEditMode()">
+          </div>
+          <div class="form-group">
+            <label>Vị trí thực tập <span class="text-danger" *ngIf="isEditMode()">*</span></label>
+            <input type="text" [(ngModel)]="profile().internPosition" [readonly]="!isEditMode()" [class.bg-readonly]="!isEditMode()">
+          </div>
+          <div class="form-group">
+            <label>GPA (Hệ 4.0)</label>
+            <input type="text" [(ngModel)]="profile().gpa" [readonly]="!isEditMode()" [class.bg-readonly]="!isEditMode()">
+          </div>
+          <div class="form-group">
+            <label>Trình độ tiếng Anh</label>
+            <input type="text" [(ngModel)]="profile().englishSkill" [readonly]="!isEditMode()" [class.bg-readonly]="!isEditMode()">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="right-column">
+      
+      <div class="profile-card">
+        <div class="card-header">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+          Thông tin quản lý
+        </div>
+        <div class="form-group mb-16">
+          <label>Ngày bắt đầu</label>
+          <input type="date" [(ngModel)]="profile().startDate" [readonly]="!isEditMode()" [class.bg-readonly]="!isEditMode()">
+        </div>
+        <div class="form-group mb-16">
+          <label>Thời gian thực tập</label>
+          <input type="text" [(ngModel)]="profile().duration" [readonly]="!isEditMode()" [class.bg-readonly]="!isEditMode()">
+        </div>
+        <div class="form-group">
+          <label>Trạng thái thực tập</label>
+          <select [(ngModel)]="profile().internStatus" [disabled]="!isEditMode()" [class.bg-readonly]="!isEditMode()">
+            <option value="Chưa bắt đầu">Chưa bắt đầu</option>
+            <option value="Đang diễn ra">Đang diễn ra</option>
+            <option value="Đã hoàn thành">Đã hoàn thành</option>
+            <option value="Đã hủy">Đã hủy</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="profile-card">
+        <div class="card-header">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          Thông tin định danh
+        </div>
+        <div class="form-group mb-16">
+          <label>Số CCCD <span class="text-danger" *ngIf="isEditMode()">*</span></label>
+          <input type="text" [(ngModel)]="profile().idCardNumber" [readonly]="!isEditMode()" [class.bg-readonly]="!isEditMode()">
+        </div>
+        <div class="form-group mb-16">
+          <label>Ngày cấp</label>
+          <input type="date" [(ngModel)]="profile().idIssueDate" [readonly]="!isEditMode()" [class.bg-readonly]="!isEditMode()">
+        </div>
+        <div class="form-group">
+          <label>Nơi cấp</label>
+          <input type="text" [(ngModel)]="profile().idIssuePlace" [readonly]="!isEditMode()" [class.bg-readonly]="!isEditMode()">
+        </div>
+      </div>
+
+      <div class="profile-card">
+        <div class="card-header">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="21" y1="10" x2="3" y2="10"></line><line x1="21" y1="6" x2="3" y2="6"></line><line x1="21" y1="14" x2="3" y2="14"></line><line x1="21" y1="18" x2="3" y2="18"></line></svg>
+          Giới thiệu & CV
+        </div>
+        <div class="form-group mb-16">
+          <label>Giới thiệu bản thân</label>
+          <textarea rows="4" [(ngModel)]="profile().bio" [readonly]="!isEditMode()" [class.bg-readonly]="!isEditMode()"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Link CV (Portfolio)</label>
+          <div class="link-wrapper">
+            <svg class="link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+            <input type="text" [(ngModel)]="profile().cvLink" [readonly]="!isEditMode()" class="text-link pl-32" [class.bg-readonly]="!isEditMode()">
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
