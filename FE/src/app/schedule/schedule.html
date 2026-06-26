@@ -1,6 +1,9 @@
 <div class="schedule-container">
   <div class="calendar-card">
-    
+    <div class="alert-box" *ngIf="notificationMessage()" [class.error]="isError()">
+      {{ notificationMessage() }}
+    </div>
+
     <div class="calendar-header">
       <button class="btn-nav" (click)="prevMonth()">&#10094; Tháng Trước</button>
       <h3 class="current-month">{{ currentMonthText() }}</h3>
@@ -19,52 +22,35 @@
 
     <div class="calendar-grid">
       <ng-container *ngFor="let day of calendarDays()">
-        
-        <div class="calendar-cell empty-cell" *ngIf="!day.isCurrentMonth">
-        </div>
-
+        <div class="calendar-cell empty-cell" *ngIf="!day.isCurrentMonth"></div>
         <div class="calendar-cell disabled-cell" *ngIf="day.isCurrentMonth && day.isSunday">
           <span class="date-number weekend-text">{{ day.dayNumber }}</span>
           <div class="blocked-text">Nghỉ Chủ Nhật</div>
         </div>
-
         <div class="calendar-cell" *ngIf="day.isCurrentMonth && !day.isSunday" [class.saturday-cell]="day.isSaturday">
-          <span class="date-number" [class.weekend-text]="day.isSaturday">
-            {{ day.dayNumber }}
-          </span>
+          <span class="date-number" [class.weekend-text]="day.isSaturday">{{ day.dayNumber }}</span>
           <div class="shift-options">
-            <label class="shift-checkbox">
-              <input type="checkbox" 
-                     [(ngModel)]="day.morningSelected" 
-                     (ngModelChange)="onSelectionChange()"> Sáng
+            <label class="shift-checkbox" [class.registered]="day.morningRegistered">
+              <input type="checkbox" [(ngModel)]="day.morningSelected" [disabled]="day.isPast" (ngModelChange)="onSelectionChange()"> Sáng
             </label>
-            
-            <label class="shift-checkbox" [class.disabled]="day.isSaturday">
-              <input type="checkbox" 
-                     [(ngModel)]="day.afternoonSelected" 
-                     [disabled]="day.isSaturday"
-                     (ngModelChange)="onSelectionChange()"> 
-              {{ day.isSaturday ? 'Chiều (Nghỉ)' : 'Chiều' }}
+            <label class="shift-checkbox" [class.registered]="day.afternoonRegistered">
+              <input type="checkbox" [(ngModel)]="day.afternoonSelected" [disabled]="day.isSaturday || day.isPast" (ngModelChange)="onSelectionChange()"> {{ day.isSaturday ? 'Chiều (Nghỉ)' : 'Chiều' }}
             </label>
           </div>
         </div>
-
       </ng-container>
     </div>
 
     <div class="action-panel">
       <div class="summary">
-        <span class="icon-info">ℹ️</span> 
-        Đã chọn: <strong class="text-highlight">{{ selectedStats().morning }}</strong> ca sáng, 
-        <strong class="text-highlight">{{ selectedStats().afternoon }}</strong> ca chiều.
+        Đã chọn: <strong>{{ selectedStats().morning }}</strong> sáng, <strong>{{ selectedStats().afternoon }}</strong> chiều.
       </div>
       <div class="actions">
         <button class="btn-clear" (click)="clearSelections()">Xóa lựa chọn</button>
         <button class="btn-submit" (click)="onSubmit()" [disabled]="isSubmitting()">
-          {{ isSubmitting() ? 'Đang gửi...' : 'Lưu Đăng Ký Lịch' }}
+          {{ isSubmitting() ? 'Đang gửi...' : 'Lưu Thay Đổi' }}
         </button>
       </div>
     </div>
-
   </div>
 </div>

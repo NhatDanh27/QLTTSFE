@@ -100,3 +100,51 @@
 .btn-cancel:hover { background-color: #f1f5f9; }
 .btn-submit { background-color: #4338ca; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 500; cursor: pointer; }
 .btn-submit:hover { background-color: #3730a3; }
+.progress-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Khoảng cách giữa thanh và con số */
+}
+
+.progress-bar-bg {
+  flex-grow: 1;
+  width: 100px; /* Hoặc 100% tùy thiết kế của bạn */
+  height: 8px;  /* Chiều cao của thanh nền */
+  background-color: #e9ecef; /* Màu xám nhạt cho phần chưa hoàn thành */
+  border-radius: 4px;
+  overflow: hidden; /* Đảm bảo phần fill không tràn ra ngoài góc bo tròn */
+}
+
+.progress-fill {
+  height: 100%; /* Chiếm toàn bộ chiều cao của thanh nền */
+  background-color: #0d6efd; /* Màu xanh dương cho phần đã hoàn thành */
+  border-radius: 4px;
+  transition: width 0.4s ease-in-out; /* Hiệu ứng chạy mượt mà khi % thay đổi */
+}
+.badge-pending {
+  background-color: #fff3cd;
+  color: #856404;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.85em;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.btn-approve {
+  background-color: #10b981;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  margin-right: 6px;
+  transition: background-color 0.2s;
+}
+
+.btn-approve:hover {
+  background-color: #059669;
+}

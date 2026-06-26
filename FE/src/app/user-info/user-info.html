@@ -1,5 +1,7 @@
 <div class="profile-container">
-  
+  <div class="alert-box" *ngIf="successMessage()" [class.error]="isError()">
+  {{ successMessage() }}
+</div>
   <header class="page-header">
     <div class="header-text">
       <h2 class="page-title">Hồ sơ thực tập sinh</h2>
@@ -27,12 +29,12 @@
             <input type="text" [(ngModel)]="profile().fullName" [readonly]="!isEditMode()">
           </div>
           <div class="form-group">
-            <label>Giới tính <span class="text-danger">*</span></label>
-            <select [(ngModel)]="profile().gender" [disabled]="!isEditMode()">
-              <option value="Nam">Nam</option>
-              <option value="Nữ">Nữ</option>
-            </select>
-          </div>
+  <label>Giới tính <span class="text-danger">*</span></label>
+  <select [(ngModel)]="profile().gender" [disabled]="!isEditMode()">
+    <option value="boy">Nam</option>
+    <option value="girl">Nữ</option>
+  </select>
+</div>
           <div class="form-group">
             <label>Ngày sinh <span class="text-danger">*</span></label>
             <input type="date" [(ngModel)]="profile().dob" [readonly]="!isEditMode()">
@@ -46,7 +48,7 @@
             <input type="email" [(ngModel)]="profile().personalEmail" [readonly]="!isEditMode()">
           </div>
           <div class="form-group">
-            <label>Email trường</label>
+            <label>Email trường <span class="text-danger">*</span></label>
             <input type="email" [(ngModel)]="profile().schoolEmail" [readonly]="!isEditMode()" >
           </div>
         </div>
@@ -74,11 +76,11 @@
             <input type="text" [(ngModel)]="profile().university" [readonly]="!isEditMode()">
           </div>
           <div class="form-group">
-            <label>Mã số sinh viên (MSSV)</label>
+            <label>Mã số sinh viên (MSSV) <span class="text-danger">*</span></label>
             <input type="text" [(ngModel)]="profile().studentId" [readonly]="!isEditMode()">
           </div>
           <div class="form-group">
-            <label>Ngành học</label>
+            <label>Ngành học <span class="text-danger">*</span></label>
             <input type="text" [(ngModel)]="profile().major" [readonly]="!isEditMode()">
           </div>
           <div class="form-group">
@@ -86,7 +88,7 @@
             <input type="text" [(ngModel)]="profile().internPosition" >
           </div>
           <div class="form-group">
-            <label>GPA (Hệ 4.0)</label>
+            <label>GPA</label>
             <input type="text" [(ngModel)]="profile().gpa" [readonly]="!isEditMode()">
           </div>
           <div class="form-group">
@@ -105,14 +107,14 @@
           Thông tin thực tập
         </div>
         <div class="form-group mb-16">
-          <label>Ngày bắt đầu</label>
-          <input type="text" [(ngModel)]="profile().startDate" >
-        </div>
+  <label>Ngày bắt đầu <span class="text-danger">*</span></label>
+  <input type="date" [(ngModel)]="profile().startDate" [readonly]="!isEditMode()">
+</div>
         <div class="form-group">
-          <label>Thời gian thực tập</label>
+          <label>Thời gian thực tập <span class="text-danger">*</span></label>
           <div class="input-with-badge">
             <input type="text" [(ngModel)]="profile().duration" >
-            <span class="badge-status">{{ profile().internStatus }}</span>
+           
           </div>
         </div>
       </div>
@@ -127,7 +129,7 @@
           <input type="text" [(ngModel)]="profile().idCardNumber" [readonly]="!isEditMode()">
         </div>
         <div class="form-group mb-16">
-          <label>Ngày cấp</label>
+          <label>Ngày cấp <span class="text-danger">*</span></label>
           <input type="date" [(ngModel)]="profile().idIssueDate" [readonly]="!isEditMode()">
         </div>
         <div class="form-group">
@@ -146,7 +148,7 @@
           <textarea rows="5" [(ngModel)]="profile().bio" [readonly]="!isEditMode()"></textarea>
         </div>
         <div class="form-group">
-          <label>Link CV (Portfolio)</label>
+          <label>Link CV (Portfolio) <span class="text-danger">*</span></label>
           <div class="link-wrapper">
             <svg class="link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
             <input type="text" [(ngModel)]="profile().cvLink" [readonly]="!isEditMode()" class="text-link pl-32">

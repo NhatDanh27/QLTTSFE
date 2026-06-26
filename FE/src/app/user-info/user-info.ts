@@ -1,83 +1,172 @@
-import { Component, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, inject, signal, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
-export interface InternProfile {
-  fullName: string;
-  gender: string;
-  dob: string;
-  phone: string;
-  personalEmail: string;
-  schoolEmail: string;
-  currentAddress: string;
-  facebookUrl: string;
-  
-  university: string;
-  studentId: string;
-  major: string;
-  internPosition: string; // Read-only
-  gpa: string;
-  englishSkill: string;
-
-  startDate: string; // Read-only
-  duration: string; // Read-only
-  internStatus: string;
-
-  idCardNumber: string;
-  idIssueDate: string;
-  idIssuePlace: string;
-
-  bio: string;
-  cvLink: string;
-}
+import { UserApi, UserInfoDTO } from '../services/user-api';
 
 @Component({
-  selector: 'app-intern-profile',
+  selector: 'app-user-info',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './user-info.html',
   styleUrls: ['./user-info.css']
 })
-export class InternProfileComponent {
-  // Trạng thái cho phép chỉnh sửa
+export class ProfileComponent implements OnInit {
+  private userService = inject(UserApi);
+  private platformId = inject(PLATFORM_ID);
+
+  // States
   isEditMode = signal<boolean>(false);
+  hasInfoInDb = signal<boolean>(false);
+  
+  // Thông báo
+  successMessage = signal<string>('');
+  isError = signal<boolean>(false);
+  
+  currentUserId = 0;
 
-  // Dữ liệu mẫu khởi tạo (Giống hệt trong ảnh)
-  profile = signal<InternProfile>({
-    fullName: 'Nguyễn Văn A',
-    gender: 'Nam',
-    dob: '2000-01-01',
-    phone: '0901234567',
-    personalEmail: 'nguyenvana@gmail.com',
-    schoolEmail: '2012345@student.hcmut.edu.vn',
-    currentAddress: '123 Đường Lê Lợi, Phường Bến Thành, Quận 1, TP.HCM',
-    facebookUrl: 'https://facebook.com/nguyenvana',
-    
-    university: 'Đại học Bách Khoa TP.HCM',
-    studentId: '2012345',
-    major: 'Khoa học Máy tính',
-    internPosition: 'Frontend Developer Intern',
-    gpa: '3.5',
-    englishSkill: 'IELTS 6.5',
-
-    startDate: '15/10/2023',
-    duration: '3 tháng',
-    internStatus: 'Đang diễn ra',
-
-    idCardNumber: '079000123456',
-    idIssueDate: '2021-05-20',
-    idIssuePlace: 'Cục Cảnh sát QLHC về TTXH',
-
-    bio: 'Sinh viên năm cuối ngành Khoa học Máy tính, đam mê phát triển web frontend. Mong muốn học hỏi và đóng góp vào các dự án thực tế trong môi trường doanh nghiệp.',
-    cvLink: 'https://portfolio.nguyenvana.dev'
+  profile = signal<any>({
+    fullName: '', gender: 'boy', dob: '', phone: '', personalEmail: '',
+    schoolEmail: '', currentAddress: '', facebookUrl: '', university: '',
+    studentId: '', major: '', internPosition: '', gpa: '', englishSkill: '',
+    startDate: '', duration: '', internStatus: '', idCardNumber: '',
+    idIssueDate: '', idIssuePlace: 'CTCCSQLHCVTTXH', bio: '', cvLink: ''
   });
+
+  ngOnInit(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      const sessionUserId = sessionStorage.getItem('userId');
+      if (sessionUserId) {
+        this.currentUserId = parseInt(sessionUserId, 10);
+        this.loadProfileData();
+      }
+    }
+  }
+
+  // Hiển thị thông báo tinh tế (thay cho alert)
+  private showNotification(msg: string, isErr: boolean = false) {
+    this.isError.set(isErr);
+    this.successMessage.set(msg);
+    
+    // Tự động ẩn sau 3 giây
+    setTimeout(() => {
+      this.successMessage.set('');
+      this.isError.set(false);
+    }, 3000);
+  }
+
+  loadProfileData() {
+    if (this.currentUserId === 0) return;
+
+    this.userService.getUserInfo(this.currentUserId).subscribe({
+      next: (res) => {
+        if (res && res.data) {
+          this.hasInfoInDb.set(true);
+          const dbData = res.data;
+          
+          // --- CẬP NHẬT TRẠNG THÁI HỒ SƠ ---
+          // Kiểm tra điều kiện: Nếu đã có CCCD và Số điện thoại thì đánh dấu là "đã cập nhật"
+          if (dbData.cccd && dbData.sdt) {
+             sessionStorage.setItem('isProfileUpdated', 'true');
+          } else {
+             sessionStorage.setItem('isProfileUpdated', 'false');
+          }
+          
+          this.profile.set({
+            ...this.profile(),
+            fullName: dbData.hoten || '',
+            gender: dbData.gioi_tinh || 'boy',
+            phone: dbData.sdt || '',
+            personalEmail: dbData.email_ca_nhan || '',
+            schoolEmail: dbData.email_truong || '',
+            currentAddress: dbData.dia_chi || '',
+            facebookUrl: dbData.fb_url || '',
+            university: dbData.truong || '',
+            studentId: dbData.mssv || '',
+            major: dbData.nganh_hoc || '',
+            internPosition: dbData.vi_tri || '',
+            gpa: dbData.gpa || '',
+            englishSkill: dbData.trinh_do_tieng_anh || '',
+            startDate: dbData.ngay_bat_dau ? dbData.ngay_bat_dau.split('T')[0] : '',
+            duration: dbData.thoi_gian_thuctap || '',
+            idCardNumber: dbData.cccd || '',
+            idIssueDate: dbData.ngay_cap_cccd ? dbData.ngay_cap_cccd.split('T')[0] : '',
+            idIssuePlace: dbData.noi_cap_cccd || '',
+            bio: dbData.gioi_thieu || '',
+            cvLink: dbData.cv || ''
+          });
+        }
+      },
+      error: (err) => {
+        console.error('Không tìm thấy dữ liệu hồ sơ:', err);
+        this.hasInfoInDb.set(false);
+        // Chưa có dữ liệu trên DB -> chưa cập nhật
+        sessionStorage.setItem('isProfileUpdated', 'false');
+      }
+    });
+  }
 
   toggleEditMode() {
     if (this.isEditMode()) {
-      // Logic lưu dữ liệu gọi API ở đây
-      console.log('Lưu thông tin:', this.profile());
-      alert('Cập nhật thông tin thành công!');
+      this.saveProfileToDb();
+    } else {
+      this.isEditMode.set(true);
     }
-    this.isEditMode.set(!this.isEditMode());
+  }
+
+  saveProfileToDb() {
+    const p = this.profile();
+    
+    if (!p.personalEmail && !p.schoolEmail) {
+      this.showNotification('Vui lòng nhập ít nhất 1 Email.', true);
+      return;
+    }
+
+    const payload: UserInfoDTO = {
+      fullname: p.fullName,
+      gioi_tinh: p.gender,
+      sdt: p.phone,
+      email_personal: p.personalEmail,
+      email_school: p.schoolEmail,
+      location: p.currentAddress,
+      fb_url: p.facebookUrl,
+      school: p.university,
+      studentID: p.studentId,
+      study: p.major,
+      postion: p.internPosition,
+      gpa: p.gpa,
+      english_level: p.englishSkill,
+      start_intern: p.startDate || undefined,
+      duration_intern: p.duration,
+      cccd: p.idCardNumber,
+      cccd_create: p.idIssueDate || undefined,
+      cccd_location: p.idIssuePlace,
+      description: p.bio,
+      cv: p.cvLink
+    };
+
+    const action$ = this.hasInfoInDb() 
+      ? this.userService.updateUserInfo(this.currentUserId, payload)
+      : this.userService.createUserInfo(payload);
+
+    action$.subscribe({
+      next: (res) => {
+        this.showNotification(res.message || 'Lưu hồ sơ thành công!');
+        this.hasInfoInDb.set(true);
+        this.isEditMode.set(false);
+        
+        // --- CẬP NHẬT TRẠNG THÁI CHO PHÉP TRUY CẬP KHI LƯU THÀNH CÔNG ---
+        sessionStorage.setItem('isProfileUpdated', 'true');
+      },
+      error: (err) => this.showNotification(this.extractError(err), true)
+    });
+  }
+
+  private extractError(err: any): string {
+    if (typeof err.error === 'string') return err.error;
+    if (err.error?.message) return err.error.message;
+    if (err.error?.errors) {
+      return Object.values(err.error.errors).map((e: any) => e[0]).join('\n');
+    }
+    return 'Có lỗi xảy ra khi lưu hồ sơ.';
   }
 }

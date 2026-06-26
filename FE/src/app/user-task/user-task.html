@@ -1,52 +1,22 @@
-<div class="task-manager-container">
-  
+<div class="user-task-container">
   <header class="page-header">
     <div class="header-text">
-      <h2 class="page-title">Nhiệm vụ của tôi</h2>
-      <p class="page-subtitle">Xem danh sách công việc được giao và cập nhật tiến độ hàng ngày.</p>
+      <h2 class="page-title">Công việc của tôi</h2>
+      <p class="page-subtitle">Cập nhật tiến độ các task được giao</p>
     </div>
-    </header>
+  </header>
 
   <div class="task-card">
-    
-    <div class="filter-bar">
-      <div class="filter-group search-group">
-        <label>Tìm kiếm Tiêu đề Task</label>
-        <div class="input-wrapper">
-          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-          <input type="text" placeholder="Nhập tên task...">
-        </div>
-      </div>
-      
-      <div class="filter-group">
-        <label>Trạng thái</label>
-        <select>
-          <option>Tất cả trạng thái</option>
-          <option>Chưa bắt đầu</option>
-          <option>Đang thực hiện</option>
-          <option>Hoàn thành</option>
-        </select>
-      </div>
-
-      <div class="filter-action">
-        <button class="btn-clear-filter">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-          Xóa lọc
-        </button>
-      </div>
-    </div>
-
     <div class="table-container">
       <table class="task-table">
         <thead>
           <tr>
-            <th width="13%">ID</th>
-            <th width="35%">TIÊU ĐỀ TASK</th>
-            <th width="15%">TIẾN ĐỘ</th>
-            <th width="12%">TRẠNG THÁI</th>
-            <th width="12%">NGÀY GIAO</th>
-            
-            <th width="13%" class="text-center">HÀNH ĐỘNG</th>
+            <th width="5%">ID</th>
+            <th width="35%">Tiêu đề / Nội dung</th>
+            <th width="15%">Ngày giao</th>
+            <th width="15%">Tiến độ</th>
+            <th width="15%">Trạng thái</th>
+            <th width="15%" class="text-center">Thao tác</th>
           </tr>
         </thead>
         <tbody>
@@ -56,99 +26,61 @@
               <div class="task-title">{{ task.title }}</div>
               <div class="task-desc">{{ task.description }}</div>
             </td>
+            <td class="task-date">{{ task.assignDate | date:'dd/MM/yyyy' }}</td>
             <td>
               <div class="progress-wrapper">
-                <div class="progress-bar-bg">
-                  <div class="progress-fill" 
-                       [ngClass]="task.progress === 100 ? 'bg-green' : (task.progress > 0 ? 'bg-indigo' : 'bg-slate')" 
-                       [style.width]="task.progress + '%'"></div>
-                </div>
+                <div class="progress-bar-bg"><div class="progress-fill" [style.width]="task.progress + '%'"></div></div>
                 <span class="progress-text">{{ task.progress }}%</span>
               </div>
             </td>
             <td>
-              <span class="badge badge-todo" *ngIf="task.status === 'todo'"><span class="dot"></span> Chưa bắt đầu</span>
-              <span class="badge badge-in-progress" *ngIf="task.status === 'in-progress'"><span class="dot"></span> Đang thực hiện</span>
-              <span class="badge badge-done" *ngIf="task.status === 'done'">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Hoàn thành
-              </span>
-              <span class="badge badge-paused" *ngIf="task.status === 'paused'">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> Tạm dừng
-              </span>
-            </td>
-            <td class="task-date">{{ task.assignDate }}</td>
-            
-            <td class="text-center">
-              <button class="btn-edit-action" (click)="openUpdateModal(task)">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
-                Cập nhật
-              </button>
-            </td>
+  <span class="badge badge-in-progress" *ngIf="task.status === 'in_progress' || task.status === 0">
+    <span class="dot"></span> Đang thực hiện
+  </span>
+
+  <span class="badge badge-pending" *ngIf="task.status === 'pending'">
+    ⏳ Chờ Admin duyệt
+  </span>
+
+  <span class="badge badge-done" *ngIf="task.status === 'done' || task.status === 1">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="12" height="12"><polyline points="20 6 9 17 4 12"></polyline></svg> Hoàn thành
+  </span>
+</td>
+<td class="text-center">
+  <button class="btn-edit-action" 
+          (click)="openUpdateModal(task)" 
+          [disabled]="task.status === 'done' || task.status === 1 || task.status === 'pending'">
+    {{ task.status === 'pending' ? 'Đã gửi duyệt' : 'Cập nhật tiến độ' }}
+  </button>
+</td>
           </tr>
         </tbody>
       </table>
-    </div>
-
-    <div class="pagination-footer">
-      <div class="pagination-info">Hiển thị 1-2 của 2 task</div>
-      <div class="pagination-controls">
-        <button class="page-btn">&lt;</button>
-        <button class="page-btn active">1</button>
-        <button class="page-btn">&gt;</button>
+      
+      <div *ngIf="myTasks().length === 0" class="no-data">
+        Hiện tại bạn chưa có task nào.
       </div>
     </div>
-
   </div>
-</div>
 
-<div class="modal-overlay" *ngIf="isModalOpen()">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h3>Báo cáo tiến độ: {{ currentTask.id }}</h3>
-      <button class="btn-close-modal" (click)="closeModal()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-      </button>
-    </div>
-    
-    <div class="modal-body">
-      <div class="task-info-readonly">
-        <h4>{{ currentTask.title }}</h4>
-        <p>{{ currentTask.description }}</p>
-        
+  <div class="modal-overlay" *ngIf="isModalOpen()">
+    <div class="modal-content" style="max-width: 400px;">
+      <div class="modal-header">
+        <h3>Cập nhật Task #{{ currentTask.id }}</h3>
+        <button class="btn-close-modal" (click)="closeModal()">X</button>
       </div>
-
-      <hr class="divider">
-
-      <div class="form-row">
+      
+      <div class="modal-body">
         <div class="form-group">
-          <label>Cập nhật Tiến độ (%)</label>
-          <div class="progress-input-group">
-            <input type="range" min="0" max="100" step="5" [(ngModel)]="currentTask.progress">
-            <span class="percent-val">{{ currentTask.progress }}%</span>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label>Trạng thái hiện tại</label>
-          <select [(ngModel)]="currentTask.status">
-            <option value="todo">Chưa bắt đầu</option>
-            <option value="in-progress">Đang thực hiện</option>
-            <option value="paused">Gặp vướng mắc (Tạm dừng)</option>
-            <option value="done">Hoàn thành</option>
-          </select>
+          <label>Tiến độ hiện tại (%) <span class="text-danger">*</span></label>
+          <input type="number" min="0" max="100" [(ngModel)]="currentTask.progress" placeholder="0 - 100%">
         </div>
       </div>
 
-      <div class="form-group">
-        <label>Ghi chú báo cáo / Link nộp bài (Google Drive, Github...)</label>
-        <textarea rows="3" [(ngModel)]="currentTask.submissionNote" placeholder="Mô tả những gì bạn đã làm được, hoặc đính kèm link tài liệu..."></textarea>
+      <div class="modal-actions">
+        <button class="btn-cancel" (click)="closeModal()">Hủy</button>
+        <button class="btn-submit" (click)="onSubmit()">Lưu tiến độ</button>
       </div>
-
-    </div>
-
-    <div class="modal-actions">
-      <button class="btn-cancel" (click)="closeModal()">Đóng</button>
-      <button class="btn-submit" (click)="onSubmit()">Cập nhật tiến độ</button>
     </div>
   </div>
 </div>

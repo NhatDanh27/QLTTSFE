@@ -115,24 +115,51 @@
   cursor: pointer;
 }
 
+/* --- CSS NÚT XÓA LỌC MỚI --- */
 .filter-action {
-  padding-bottom: 2px;
+  margin-left: auto;
+  align-self: flex-end; /* Ép nút nằm thẳng hàng mép dưới với các ô input */
 }
 
 .btn-clear-filter {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: transparent;
-  border: none;
-  color: #64748b;
+  background-color: #f8fafc; /* Nền xám nhạt đồng bộ với nền trang */
+  border: 1px solid #cbd5e1; /* Màu viền khớp chính xác với viền input của bạn */
+  color: #475569;
   font-size: 14px;
   font-weight: 500;
+  padding: 8px 16px; /* Căn padding 8px trên/dưới bằng đúng kích thước input */
+  border-radius: 6px;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.btn-clear-filter:hover { color: #0f172a; }
-.btn-clear-filter .icon { width: 14px; height: 14px; }
+/* Hiệu ứng hover cảnh báo nhẹ (hành động xóa) */
+.btn-clear-filter:hover {
+  background-color: #fee2e2; 
+  border-color: #fca5a5;
+  color: #ef4444; /* Dùng màu đỏ danger đồng bộ với .text-danger của bạn */
+}
+
+/* Hiệu ứng nhấn nút */
+.btn-clear-filter:active {
+  transform: scale(0.97);
+}
+
+.btn-clear-filter svg,
+.btn-clear-filter .icon {
+  width: 16px; 
+  height: 16px;
+  transition: transform 0.3s ease;
+}
+
+/* Xoay icon khi hover */
+.btn-clear-filter:hover svg,
+.btn-clear-filter:hover .icon {
+  transform: rotate(90deg);
+}
 
 /* Bảng Dữ Liệu */
 .task-table {
@@ -225,6 +252,8 @@
 .progress-fill {
   height: 100%;
   border-radius: 4px;
+  background-color: #0284c7; /* Màu xanh biển đồng bộ với nút Sửa */
+  transition: width 0.4s ease-in-out;
 }
 
 .progress-text {
@@ -386,6 +415,7 @@
 .form-row {
   display: flex;
   gap: 16px;
+  align-items: flex-end;
 }
 .form-row .form-group {
   flex: 1;
@@ -395,6 +425,7 @@
   margin-bottom: 16px;
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .form-group label {
@@ -417,6 +448,8 @@
   outline: none;
   font-family: inherit;
   transition: border-color 0.2s;
+  width: 100%; /* THÊM DÒNG NÀY: Ép rộng bằng 100% của thẻ cha */
+  box-sizing: border-box;
 }
 
 .form-group textarea {
@@ -460,3 +493,30 @@
   cursor: pointer;
 }
 .btn-submit:hover { background-color: #3730a3; }
+.badge-pending {
+  background-color: #fff3cd;
+  color: #856404;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.85em;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.btn-approve {
+  background-color: #10b981;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  margin-right: 6px;
+  transition: background-color 0.2s;
+}
+
+.btn-approve:hover {
+  background-color: #059669;
+}

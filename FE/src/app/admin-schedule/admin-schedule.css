@@ -139,25 +139,47 @@
 }
 
 .filter-action {
-  padding-bottom: 6px;
+  align-self: flex-end;
   margin-left: auto;
 }
 
 .btn-clear-filter {
   display: flex;
   align-items: center;
-  gap: 6px;
-  background: transparent;
-  border: none;
+  gap: 8px;
+  background-color: #f8fafc; /* Nền xám rất nhạt */
+  border: 1px solid #e2e8f0; /* Viền đồng bộ với các ô input */
   color: #64748b;
   font-size: 14px;
   font-weight: 500;
+  padding: 10px 16px; /* Padding bằng với ô input (10px) để bằng chiều cao */
+  border-radius: 6px; /* Bo góc giống input */
   cursor: pointer;
-  transition: color 0.2s;
+  transition: all 0.2s ease;
 }
 
-.btn-clear-filter:hover { color: #0f172a; }
-.btn-clear-filter .icon { width: 16px; height: 16px; }
+/* Hiệu ứng khi di chuột vào */
+.btn-clear-filter:hover {
+  background-color: #fee2e2; /* Nền đỏ nhạt cảnh báo nhẹ (vì là hành động xóa) */
+  border-color: #fca5a5; 
+  color: #b91c1c; /* Chữ đỏ đậm */
+}
+
+/* Hiệu ứng khi click (nhấn xuống) */
+.btn-clear-filter:active {
+  transform: scale(0.97);
+}
+
+.btn-clear-filter .icon { 
+  width: 16px; 
+  height: 16px;
+  transition: transform 0.3s ease;
+}
+
+/* Tùy chọn: Xoay nhẹ icon x khi hover cho vui mắt */
+.btn-clear-filter:hover .icon {
+  transform: rotate(90deg);
+}
 
 /* --- BẢNG DỮ LIỆU --- */
 .data-table {

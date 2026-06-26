@@ -23,25 +23,33 @@
   <div class="schedule-card">
     
     <div class="filter-bar">
+      
       <div class="filter-group">
         <label>Tên thực tập sinh</label>
         <div class="input-wrapper">
           <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-          <input type="text" placeholder="Tìm kiếm..." [(ngModel)]="searchName">
+          <input type="text" placeholder="Nhập từ khóa..." 
+                 [(ngModel)]="searchName"
+                 (ngModelChange)="applyFilters()">
         </div>
       </div>
       
       <div class="filter-group">
         <label>Từ ngày - Đến ngày</label>
-        <div class="input-wrapper">
-          <svg class="calendar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-          <input type="text" placeholder="dd/mm/yyyy - dd/mm/yyyy" [(ngModel)]="dateRange">
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <input type="date" [(ngModel)]="startDate" (ngModelChange)="applyFilters()" 
+                 style="padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px; outline: none; font-family: inherit;">
+          
+          <span style="color: #64748b;">-</span>
+          
+          <input type="date" [(ngModel)]="endDate" (ngModelChange)="applyFilters()" 
+                 style="padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px; outline: none; font-family: inherit;">
         </div>
       </div>
 
       <div class="filter-group flex-1">
         <label>Ca làm</label>
-        <select [(ngModel)]="shiftFilter">
+        <select [(ngModel)]="shiftFilter" (ngModelChange)="applyFilters()">
           <option value="Tất cả">Tất cả</option>
           <option value="Sáng">Sáng</option>
           <option value="Chiều">Chiều</option>
@@ -61,7 +69,7 @@
       <table class="data-table">
         <thead>
           <tr>
-            <th width="10%">ID</th>
+            
             <th width="25%">THỰC TẬP SINH</th>
             <th width="15%">THỨ</th>
             <th width="20%">NGÀY ĐĂNG KÝ</th>
@@ -71,7 +79,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let record of registrationData()">
-            <td class="col-id">{{ record.id }}</td>
+            
             <td class="col-name">{{ record.internName }}</td>
             <td>{{ record.dayOfWeek }}</td>
             <td>{{ record.date }}</td>
@@ -91,7 +99,7 @@
       <table class="data-table">
         <thead>
           <tr>
-            <th width="8%">ID</th>
+            
             <th width="25%">THỰC TẬP SINH</th>
             <th width="15%">NGÀY</th>
             <th width="15%">CA LÀM</th>
@@ -102,7 +110,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let record of attendanceData()">
-            <td class="col-id">{{ record.id }}</td>
+            
             <td class="col-name">{{ record.internName }}</td>
             <td>{{ record.date }}</td>
             <td>{{ record.shift }}</td>

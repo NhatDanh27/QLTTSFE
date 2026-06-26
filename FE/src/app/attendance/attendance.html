@@ -5,13 +5,13 @@
     <p class="subtitle">Vui lòng cho phép trình duyệt truy cập vị trí để điểm danh.</p>
   </div>
 
-  <div class="alert alert-success" *ngIf="successMessage()">
-    <span class="icon">✅</span> {{ successMessage() }}
-  </div>
   <div class="alert alert-danger" *ngIf="errorMessage() || locationError()">
     <span class="icon">⚠️</span> {{ errorMessage() || locationError() }}
   </div>
 
+  <div class="alert alert-success" *ngIf="successMessage()">
+    <span class="icon">✅</span> {{ successMessage() }}
+  </div>
   <div class="attendance-card">
     
     <div class="gps-section">
@@ -32,15 +32,7 @@
     </div>
 
     <div class="form-section">
-      <div class="form-group">
-        <label>Mã lịch làm hôm nay (Reg Intern ID) <span class="text-danger">*</span></label>
-        <input 
-          type="number" 
-          [(ngModel)]="regInternId" 
-          placeholder="Nhập mã lịch (Ví dụ: 1)" 
-        />
-        <small class="hint">Trong thực tế, bạn có thể gọi API Get Lịch hôm nay để tự động điền ô này.</small>
-      </div>
+      
 
       <div class="form-group">
         <label>Ghi chú (Tùy chọn)</label>

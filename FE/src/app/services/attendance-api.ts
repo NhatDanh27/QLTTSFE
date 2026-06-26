@@ -1,9 +1,9 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import {environment} from "../../environments/environment";
+import { environment } from '../../environments/environment';
+
 export interface CheckInOutDTO {
-  User_ID: number;
   reg_intern_ID: number;
   vi_do: number;
   kinh_do: number;
@@ -18,25 +18,45 @@ export class AttendanceApiService {
   private checkinUrl = `${environment.apiUrl}/checkin`;
   private checkoutUrl = `${environment.apiUrl}/checkout`;
 
-  // Gọi API Check-in
+  // 1. Thêm hàm tạo Header chứa API Key giống bên TaskService
+  private getHeaders(): HttpHeaders {
+    return new HttpHeaders({
+      'X-API-KEY': '123456' // Đảm bảo key này khớp với config Backend của bạn
+    });
+  }
+
+  // 2. Bổ sung headers và withCredentials vào API Check-in
   checkIn(payload: CheckInOutDTO): Observable<any> {
-    return this.http.post(this.checkinUrl, payload);
+    return this.http.post(this.checkinUrl, payload, {
+      headers: this.getHeaders(),
+      withCredentials: true
+    });
   }
 
-  // Gọi API Check-out
+  // 3. Bổ sung headers và withCredentials vào API Check-out
   checkOut(payload: CheckInOutDTO): Observable<any> {
-    return this.http.post(this.checkoutUrl, payload);
+    return this.http.post(this.checkoutUrl, payload, {
+      headers: this.getHeaders(),
+      withCredentials: true
+    });
   }
 
-  // Lấy lịch sử Check-in cá nhân
+  // Bổ sung headers cho các hàm lấy lịch sử (nếu bạn có gọi đến chúng)
   getCheckInHistory(userId: number): Observable<any> {
     const params = new HttpParams().set('userID', userId.toString());
-    return this.http.get(this.checkinUrl, { params });
+    return this.http.get(this.checkinUrl, { 
+      params,
+      headers: this.getHeaders(),
+      withCredentials: true
+    });
   }
 
-  // Lấy lịch sử Check-out cá nhân
   getCheckOutHistory(userId: number): Observable<any> {
     const params = new HttpParams().set('userID', userId.toString());
-    return this.http.get(this.checkoutUrl, { params });
+    return this.http.get(this.checkoutUrl, { 
+      params,
+      headers: this.getHeaders(),
+      withCredentials: true
+    });
   }
 }

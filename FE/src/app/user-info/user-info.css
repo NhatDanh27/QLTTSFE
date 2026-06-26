@@ -190,3 +190,19 @@ textarea { resize: vertical; line-height: 1.5; }
 .link-wrapper input {
   width: 100%;
 }
+.alert-box {
+  padding: 12px 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  background-color: #dcfce7; /* Màu xanh lá (thành công) */
+  color: #166534;
+  border: 1px solid #bbf7d0;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.alert-box.error {
+  background-color: #fee2e2; /* Màu đỏ (lỗi) */
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
